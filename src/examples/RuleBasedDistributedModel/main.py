@@ -159,10 +159,11 @@ def main(simulated_time, path,pathResults,case,it):
     # Each application has an unique population politic
     # For the original json, we filter and create a sub-list for each app politic
     for aName in apps.keys():
-        data = []
-        for element in dataPopulation["sources"]:
-            if element['app'] == aName:
-                data.append(element)
+        data = [
+            element
+            for element in dataPopulation["sources"]
+            if element['app'] == aName
+        ]
 
         distribution = exponentialDistribution(name="Exp", lambd=random.randint(100,200), seed= int(aName)*100+it)
         pop_app = DynamicPopulation(name="Dynamic_%s" % aName, data=data, iteration=it, activation_dist=distribution)

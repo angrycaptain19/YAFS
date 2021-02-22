@@ -190,13 +190,15 @@ class MCDARoutingAndDeploying(Selection):
         return (y == node).sum()
 
     def get_power(self, sim, nodes):
-        power = []
-        for i in sim.topology.G.nodes():
-            if i in nodes:
-                power.append(
-                    (sim.topology.get_nodes_att()[i]["POWERmin"] + sim.topology.get_nodes_att()[i]["POWERmax"]) / 2.0)
-
-        return power
+        return [
+            (
+                sim.topology.get_nodes_att()[i]["POWERmin"]
+                + sim.topology.get_nodes_att()[i]["POWERmax"]
+            )
+            / 2.0
+            for i in sim.topology.G.nodes()
+            if i in nodes
+        ]
 
     # TODO The implementation of new criteria should be dynamic
 
@@ -468,27 +470,26 @@ class MCDARoutingAndDeploying(Selection):
         if idx == len(message.path):
             # The node who serves ... not possible case
             return [],[]
+        node_src = message.path[idx] #In this point to the other entity the system fail
+        # print "SRC: ",node_src # 164
+
+        node_dst = message.path[len(message.path)-1]
+        # print "DST: ",node_dst #261
+        # print "INT: ",message.dst_int #301
+
+        path, des = self.get_path(sim,message.app_name,message,node_src,alloc_DES,alloc_module,traffic,from_des)
+        if len(path[0])>0:
+            # print path # [[164, 130, 380, 110, 216]]
+            # print des # [40]
+
+            concPath = message.path[0:message.path.index(path[0][0])] + path[0]
+            # print concPath # [86, 242, 160, 164, 130, 380, 110, 216]
+            newINT = node_src #path[0][2]
+            # print newINT # 380
+
+            message.dst_int = newINT
+            return [concPath], des
         else:
-            node_src = message.path[idx] #In this point to the other entity the system fail
-            # print "SRC: ",node_src # 164
-
-            node_dst = message.path[len(message.path)-1]
-            # print "DST: ",node_dst #261
-            # print "INT: ",message.dst_int #301
-
-            path, des = self.get_path(sim,message.app_name,message,node_src,alloc_DES,alloc_module,traffic,from_des)
-            if len(path[0])>0:
-                # print path # [[164, 130, 380, 110, 216]]
-                # print des # [40]
-
-                concPath = message.path[0:message.path.index(path[0][0])] + path[0]
-                # print concPath # [86, 242, 160, 164, 130, 380, 110, 216]
-                newINT = node_src #path[0][2]
-                # print newINT # 380
-
-                message.dst_int = newINT
-                return [concPath], des
-            else:
-                return [],[]
+            return [],[]
 
 

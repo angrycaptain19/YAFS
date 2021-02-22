@@ -121,33 +121,32 @@ class BroadPath(Selection):
         if idx == len(message.path):
             # The node who serves ... not possible case
             return [],[]
+        node_src = message.path[idx-1]
+        # print "SRC: ",node_src # 164
+
+        node_dst = message.path[len(message.path)-1]
+        #print "DST: ",node_dst #261
+        #print "INT: ",message.dst_int #301
+
+
+        path, des = self.get_path(sim, message.app_name, message, node_src, alloc_DES, alloc_module, traffic,
+                                  from_des)
+
+
+
+
+        if len(path[0]) > 1:
+            # print "PAHT ",path # [[164, 130, 380, 110, 216]]
+            # print "DES ",des # [40]
+
+            concPath = message.path[0:message.path.index(path[0][0])] + path[0]
+            # print "CPATH ",concPath # [86, 242, 160, 164, 130, 380, 110, 216]
+            newINT = path[0][2]
+            # print "NI ",newINT # 380
+
+            message.dst_int = newINT
+            return [concPath], des
         else:
-            node_src = message.path[idx-1]
-            # print "SRC: ",node_src # 164
-
-            node_dst = message.path[len(message.path)-1]
-            #print "DST: ",node_dst #261
-            #print "INT: ",message.dst_int #301
-
-
-            path, des = self.get_path(sim, message.app_name, message, node_src, alloc_DES, alloc_module, traffic,
-                                      from_des)
-
-
-
-
-            if len(path[0]) > 1:
-                # print "PAHT ",path # [[164, 130, 380, 110, 216]]
-                # print "DES ",des # [40]
-
-                concPath = message.path[0:message.path.index(path[0][0])] + path[0]
-                # print "CPATH ",concPath # [86, 242, 160, 164, 130, 380, 110, 216]
-                newINT = path[0][2]
-                # print "NI ",newINT # 380
-
-                message.dst_int = newINT
-                return [concPath], des
-            else:
-                return [], []
+            return [], []
 
 

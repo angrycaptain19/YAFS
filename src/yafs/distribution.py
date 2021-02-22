@@ -34,11 +34,11 @@ class deterministicDistributionStartPoint(Distribution):
         super(deterministicDistributionStartPoint, self).__init__(**kwargs)
 
     def next(self):
-        if not self.started:
-            self.started = True
-            return self.start
-        else:
+        if self.started:
             return self.time
+
+        self.started = True
+        return self.start
 
 class exponentialDistribution(Distribution):
     def __init__(self,lambd,seed=1, **kwargs):
@@ -78,11 +78,11 @@ class exponentialDistributionStartPoint(Distribution):
         super(exponentialDistributionStartPoint, self).__init__(**kwargs)
 
     def next(self):
-        if not self.started:
-            self.started = True
-            return self.start
-        else:
+        if self.started:
             return int(np.random.exponential(self.lambd, size=1)[0])
+
+        self.started = True
+        return self.start
 
 class uniformDistribution(Distribution):
     def __init__(self, min,max, **kwargs):

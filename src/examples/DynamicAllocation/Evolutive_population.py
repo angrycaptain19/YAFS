@@ -20,7 +20,7 @@ class Evolutive(Population):
             dst = ctrl["distribution"]
             for item in range(self.number_generators):
                 id = random.choice(id_nodes)
-                for number in range(ctrl["number"]):
+                for _ in range(ctrl["number"]):
                     idsrc = sim.deploy_source(app_name, id_node=id, msg=msg, distribution=dst)
 
         # ASSIGNAMENT of the first SINK
@@ -40,7 +40,7 @@ class Evolutive(Population):
             for ctrl in self.sink_control:
                 module = ctrl["module"]
                 app_name = ctrl["app"]
-                for number in range(ctrl["number"]):
+                for _ in range(ctrl["number"]):
                     sim.deploy_sink(app_name, node=fog_device, module=module)
 
 
@@ -59,7 +59,7 @@ class Statical(Population):
             param = ctrl["param"]
             for item in range(self.number_generators):
                 id = random.choice(id_nodes)
-                for number in range(ctrl["number"]):
+                for _ in range(ctrl["number"]):
                     idsrc = sim.deploy_source(app_name, id_node=id, msg=msg, distribution=dst, param=param)
 
         # ASSIGNAMENT of the only one SINK

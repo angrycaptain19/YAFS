@@ -33,27 +33,26 @@ class DeviceSpeedAwareRouting(Selection):
                     moreDES = []
                 elif long == bestLong:
                     # Another instance service is deployed in the same node
-                    if len(moreDES)==0:
+                    if not moreDES:
                         moreDES.append(bestDES)
                     moreDES.append(dev)
 
 
             # There are two or more options in a node: #ROUND ROBIN Schedule
-            if len(moreDES)>0:
-                ### RETURN
-                bestValue = 0
-                minCounter =  float('inf')
-                for idx,service in enumerate(moreDES):
-                    if not service in self.counter:
-                        return minPath, service
-                    else:
-                        if minCounter < self.counter[service]:
-                            minCounter = self.counter
-                            bestValue = idx
-                return minPath, moreDES[bestValue]
-            else:
+            if not moreDES:
                 return minPath, bestDES
 
+            ### RETURN
+            bestValue = 0
+            minCounter =  float('inf')
+            for idx,service in enumerate(moreDES):
+                if service in self.counter:
+                    if minCounter < self.counter[service]:
+                        minCounter = self.counter
+                        bestValue = idx
+                else:
+                    return minPath, service
+            return minPath, moreDES[bestValue]
         except (nx.NetworkXNoPath, nx.NodeNotFound) as e:
             self.logger.warning("There is no path between two nodes: %s - %s " % (node_src, node_dst))
             # print("Simulation must ends?)"
@@ -89,27 +88,26 @@ class DeviceSpeedAwareRouting(Selection):
         if idx == len(message.path):
             # The node who serves ... not possible case
             return [],[]
+        node_src = message.path[idx] #In this point to the other entity the system fail
+        # print "SRC: ",node_src # 164
+
+        node_dst = message.path[len(message.path)-1]
+        # print "DST: ",node_dst #261
+        # print "INT: ",message.dst_int #301
+
+        path, des = self.get_path(sim,message.app_name,message,node_src,alloc_DES,alloc_module,traffic,from_des)
+        if len(path[0])>0:
+            # print path # [[164, 130, 380, 110, 216]]
+            # print des # [40]
+
+            concPath = message.path[0:message.path.index(path[0][0])] + path[0]
+            # print concPath # [86, 242, 160, 164, 130, 380, 110, 216]
+            newINT = node_src #path[0][2]
+            # print newINT # 380
+
+            message.dst_int = newINT
+            return [concPath], des
         else:
-            node_src = message.path[idx] #In this point to the other entity the system fail
-            # print "SRC: ",node_src # 164
-
-            node_dst = message.path[len(message.path)-1]
-            # print "DST: ",node_dst #261
-            # print "INT: ",message.dst_int #301
-
-            path, des = self.get_path(sim,message.app_name,message,node_src,alloc_DES,alloc_module,traffic,from_des)
-            if len(path[0])>0:
-                # print path # [[164, 130, 380, 110, 216]]
-                # print des # [40]
-
-                concPath = message.path[0:message.path.index(path[0][0])] + path[0]
-                # print concPath # [86, 242, 160, 164, 130, 380, 110, 216]
-                newINT = node_src #path[0][2]
-                # print newINT # 380
-
-                message.dst_int = newINT
-                return [concPath], des
-            else:
-                return [],[]
+            return [],[]
 
 

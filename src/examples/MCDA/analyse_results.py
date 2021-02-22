@@ -5,6 +5,7 @@ Created on Tue Nov 20 10:26:38 2018
 
 @author: isaaclera
 """
+
 import collections
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,12 +24,9 @@ fname = "file_assignments_%s_%i_%i.pkl"% (case, stop_time, it)
 
 with open(path+fname,"r") as f:
     cs = pickle.load(f)
-    
-    
-    c = []
-    for k in cs:
-        c.append(len(cs[k][0]))
-    
+
+
+    c = [len(cs[k][0]) for k in cs]
     a = np.array(c)
     plt.hist(a, bins=10)  # arguments are passed to np.histogram
     plt.title("Histogram with 'auto' bins")
@@ -38,10 +36,7 @@ with open(path+fname,"r") as f:
 fname2="file_alloc_entities_%s_%i_%i.pkl"% (case, stop_time, it)
 f = open(path+fname2,"r")
 cs2 = pickle.load(f)
-dep = {}
-for k in cs2:
-    dep[k]=len(cs2[k])
-    
+dep = {k: len(cs2[k]) for k in cs2}
 l = np.sort(dep.values())
 l[-1]=0
 plt.plot(l[l>0])

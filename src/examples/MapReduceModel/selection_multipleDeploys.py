@@ -61,7 +61,7 @@ class DeviceSpeedAwareRouting(Selection):
 
         #The number of nodes control the updating of the cache. If the number of nodes changes, the cache is totally cleaned.
         currentNodes = len(sim.topology.G.nodes)
-        if not self.invalid_cache_value == currentNodes:
+        if self.invalid_cache_value != currentNodes:
             self.invalid_cache_value = currentNodes
             self.cache = {}
 
@@ -84,27 +84,26 @@ class DeviceSpeedAwareRouting(Selection):
         if idx == len(message.path):
             # The node who serves ... not possible case
             return [],[]
+        node_src = message.path[idx] #In this point to the other entity the system fail
+        # print "SRC: ",node_src # 164
+
+        node_dst = message.path[len(message.path)-1]
+        # print "DST: ",node_dst #261
+        # print "INT: ",message.dst_int #301
+
+        path, des = self.get_path(sim,message.app_name,message,node_src,alloc_DES,alloc_module,traffic,from_des)
+        if len(path[0])>0:
+            # print path # [[164, 130, 380, 110, 216]]
+            # print des # [40]
+
+            concPath = message.path[0:message.path.index(path[0][0])] + path[0]
+            # print concPath # [86, 242, 160, 164, 130, 380, 110, 216]
+            newINT = node_src #path[0][2]
+            # print newINT # 380
+
+            message.dst_int = newINT
+            return [concPath], des
         else:
-            node_src = message.path[idx] #In this point to the other entity the system fail
-            # print "SRC: ",node_src # 164
-
-            node_dst = message.path[len(message.path)-1]
-            # print "DST: ",node_dst #261
-            # print "INT: ",message.dst_int #301
-
-            path, des = self.get_path(sim,message.app_name,message,node_src,alloc_DES,alloc_module,traffic,from_des)
-            if len(path[0])>0:
-                # print path # [[164, 130, 380, 110, 216]]
-                # print des # [40]
-
-                concPath = message.path[0:message.path.index(path[0][0])] + path[0]
-                # print concPath # [86, 242, 160, 164, 130, 380, 110, 216]
-                newINT = node_src #path[0][2]
-                # print newINT # 380
-
-                message.dst_int = newINT
-                return [concPath], des
-            else:
-                return [],[]
+            return [],[]
 
 

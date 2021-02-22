@@ -6,6 +6,7 @@ Created on Tue May 22 15:58:58 2018
 @author: carlos
 """
 
+
 import networkx as nx
 import itertools
 from networkx.algorithms import community
@@ -35,53 +36,7 @@ myConfiguration_ = 'newage2'
 #myConfiguration_='tinny2'
 
 
-if myConfiguration_=='tinny':
-    TOTALNUMBEROFAPPS = 1
-    CLOUDCAPACITY = 9999999999999999
-    CLOUDSPEED = 9999
-    CLOUDBW = 999
-    CLOUDPR = 99
-    PERCENTATGEOFGATEWAYS = 0.2
-    func_PROPAGATIONTIME = "random.randint(10,10)"
-    func_BANDWITDH = "random.randint(100,100)"
-    func_SERVICEINSTR = "random.randint(100,100)"
-    func_SERVICEMESSAGESIZE = "random.randint(500,500)"
-    func_NETWORKGENERATION = "nx.barbell_graph(5, 1)" #algorithm for the generation of the network topology
-    func_NODERESOURECES = "random.randint(1,1)" #random distribution for the resources of the fog devices
-    func_NODESPEED = "random.randint(100,1000)" #random distribution for the speed of the fog devices
-    func_APPGENERATION = "nx.gn_graph(random.randint(2,3))" #algorithm for the generation of the random applications
-    func_REQUESTPROB="random.random()/4" #Popularidad de la app. threshold que determina la probabilidad de que un dispositivo tenga asociado peticiones a una app. tle threshold es para cada ap
-    func_REQUESTPROB="1.0" #Popularidad de la app. threshold que determina la probabilidad de que un dispositivo tenga asociado peticiones a una app. tle threshold es para cada ap
-    func_SERVICERESOURCES = "10"
-    func_APPDEADLINE="(random.random()*4)"
-    func_USERREQRAT="random.random()"
-
-
-
-if myConfiguration_=='tinny2':
-    TOTALNUMBEROFAPPS = 4
-    CLOUDCAPACITY = 9999999999999999
-    CLOUDSPEED = 9999
-    CLOUDBW = 999
-    CLOUDPR = 99
-    PERCENTATGEOFGATEWAYS = 1.0
-    func_PROPAGATIONTIME = "random.randint(10,10)"
-    func_BANDWITDH = "random.randint(100,100)"
-    func_SERVICEINSTR = "random.randint(100,100)"
-    func_SERVICEMESSAGESIZE = "random.randint(500,500)"
-    func_NETWORKGENERATION = "nx.barbell_graph(5, 1)" #algorithm for the generation of the network topology
-    func_NODERESOURECES = "random.randint(1,10)" #random distribution for the resources of the fog devices
-    func_NODESPEED = "random.randint(100,1000)" #random distribution for the speed of the fog devices
-    func_APPGENERATION = "nx.gn_graph(random.randint(2,10))" #algorithm for the generation of the random applications
-    func_REQUESTPROB="random.random()/4" #Popularidad de la app. threshold que determina la probabilidad de que un dispositivo tenga asociado peticiones a una app. tle threshold es para cada ap
-    func_REQUESTPROB="1.0" #Popularidad de la app. threshold que determina la probabilidad de que un dispositivo tenga asociado peticiones a una app. tle threshold es para cada ap
-    func_SERVICERESOURCES = "1"
-    func_APPDEADLINE="(random.random()*4)"
-    func_USERREQRAT="random.random()"
-
-
-
-if myConfiguration_=='experimentalInicial':
+if myConfiguration_ == 'experimentalInicial':
     TOTALNUMBEROFAPPS = 4
     CLOUDCAPACITY = 9999999999999999
     CLOUDSPEED = 9999
@@ -104,8 +59,7 @@ if myConfiguration_=='experimentalInicial':
 
 
 
-if myConfiguration_ == 'isaac1':
-
+elif myConfiguration_ == 'isaac1':
     #CLOUD
     CLOUDCAPACITY = 9999999999999999  #MB RAM
     CLOUDSPEED = 10000 #INSTR x MS
@@ -138,8 +92,7 @@ if myConfiguration_ == 'isaac1':
 
 
 
-if myConfiguration_ == 'newage':
-
+elif myConfiguration_ == 'newage':
     #CLOUD
     CLOUDCAPACITY = 9999999999999999  #MB RAM
     CLOUDSPEED = 10000 #INSTR x MS
@@ -173,43 +126,7 @@ if myConfiguration_ == 'newage':
 
 
 
-if myConfiguration_ == 'newagepequenyoqueresuelveenpocotiempo':
-
-    #CLOUD
-    CLOUDCAPACITY = 9999999999999999  #MB RAM
-    CLOUDSPEED = 10000 #INSTR x MS
-    CLOUDBW = 125000 # BYTES / MS --> 1000 Mbits/s
-    CLOUDPR = 1 # MS
-
-
-    #NETWORK
-    PERCENTATGEOFGATEWAYS = 0.25
-    func_PROPAGATIONTIME = "random.randint(5,5)" #MS
-    func_BANDWITDH = "random.randint(75000,75000)" # BYTES / MS
-    func_NETWORKGENERATION = "nx.barabasi_albert_graph(n=50, m=2)" #algorithm for the generation of the network topology
-    func_NODERESOURECES = "random.randint(5,15)" #MB RAM #random distribution for the resources of the fog devices
-    func_NODESPEED = "random.randint(100,1000)" #INTS / MS #random distribution for the speed of the fog devices
-
-
-
-    #APP and SERVICES
-    TOTALNUMBEROFAPPS = 40
-    func_APPGENERATION = "nx.gn_graph(random.randint(2,10))" #algorithm for the generation of the random applications
-    func_SERVICEINSTR = "random.randint(20000,60000)" #INSTR --> teniedno en cuenta nodespped esto nos da entre 200 y 600 MS
-    func_SERVICEMESSAGESIZE = "random.randint(1500000,4500000)" #BYTES y teniendo en cuenta net bandwidth nos da entre 20 y 60 MS
-    func_SERVICERESOURCES = "random.randint(2,7)" #MB de ram que consume el servicio, teniendo en cuenta noderesources y appgeneration tenemos que nos caben aprox 1 app por nodo o unos 10 servicios
-    func_APPDEADLINE="random.randint(2600,6600)" #MS
-
-
-    #USERS and IoT DEVICES
-    func_REQUESTPROB="random.random()/20" #Popularidad de la app. threshold que determina la probabilidad de que un dispositivo tenga asociado peticiones a una app. tle threshold es para cada ap
-    func_USERREQRAT="random.randint(200,1000)"  #MS
-
-
-
-
-if myConfiguration_ == 'newage2':
-
+elif myConfiguration_ == 'newage2':
     #CLOUD
     CLOUDCAPACITY = 9999999999999999  #MB RAM
     CLOUDSPEED = 10000 #INSTR x MS
@@ -241,8 +158,7 @@ if myConfiguration_ == 'newage2':
     func_USERREQRAT="random.randint(200,1000)"  #MS
 
 
-if myConfiguration_ == 'newage3':
-
+elif myConfiguration_ == 'newage3':
     #CLOUD
     CLOUDCAPACITY = 9999999999999999  #MB RAM
     CLOUDSPEED = 1000 #INSTR x MS
@@ -285,6 +201,86 @@ if myConfiguration_ == 'newage3':
 
 
 
+elif myConfiguration_ == 'newagepequenyoqueresuelveenpocotiempo':
+    #CLOUD
+    CLOUDCAPACITY = 9999999999999999  #MB RAM
+    CLOUDSPEED = 10000 #INSTR x MS
+    CLOUDBW = 125000 # BYTES / MS --> 1000 Mbits/s
+    CLOUDPR = 1 # MS
+
+
+    #NETWORK
+    PERCENTATGEOFGATEWAYS = 0.25
+    func_PROPAGATIONTIME = "random.randint(5,5)" #MS
+    func_BANDWITDH = "random.randint(75000,75000)" # BYTES / MS
+    func_NETWORKGENERATION = "nx.barabasi_albert_graph(n=50, m=2)" #algorithm for the generation of the network topology
+    func_NODERESOURECES = "random.randint(5,15)" #MB RAM #random distribution for the resources of the fog devices
+    func_NODESPEED = "random.randint(100,1000)" #INTS / MS #random distribution for the speed of the fog devices
+
+
+
+    #APP and SERVICES
+    TOTALNUMBEROFAPPS = 40
+    func_APPGENERATION = "nx.gn_graph(random.randint(2,10))" #algorithm for the generation of the random applications
+    func_SERVICEINSTR = "random.randint(20000,60000)" #INSTR --> teniedno en cuenta nodespped esto nos da entre 200 y 600 MS
+    func_SERVICEMESSAGESIZE = "random.randint(1500000,4500000)" #BYTES y teniendo en cuenta net bandwidth nos da entre 20 y 60 MS
+    func_SERVICERESOURCES = "random.randint(2,7)" #MB de ram que consume el servicio, teniendo en cuenta noderesources y appgeneration tenemos que nos caben aprox 1 app por nodo o unos 10 servicios
+    func_APPDEADLINE="random.randint(2600,6600)" #MS
+
+
+    #USERS and IoT DEVICES
+    func_REQUESTPROB="random.random()/20" #Popularidad de la app. threshold que determina la probabilidad de que un dispositivo tenga asociado peticiones a una app. tle threshold es para cada ap
+    func_USERREQRAT="random.randint(200,1000)"  #MS
+
+
+
+
+elif myConfiguration_ == 'tinny':
+    TOTALNUMBEROFAPPS = 1
+    CLOUDCAPACITY = 9999999999999999
+    CLOUDSPEED = 9999
+    CLOUDBW = 999
+    CLOUDPR = 99
+    PERCENTATGEOFGATEWAYS = 0.2
+    func_PROPAGATIONTIME = "random.randint(10,10)"
+    func_BANDWITDH = "random.randint(100,100)"
+    func_SERVICEINSTR = "random.randint(100,100)"
+    func_SERVICEMESSAGESIZE = "random.randint(500,500)"
+    func_NETWORKGENERATION = "nx.barbell_graph(5, 1)" #algorithm for the generation of the network topology
+    func_NODERESOURECES = "random.randint(1,1)" #random distribution for the resources of the fog devices
+    func_NODESPEED = "random.randint(100,1000)" #random distribution for the speed of the fog devices
+    func_APPGENERATION = "nx.gn_graph(random.randint(2,3))" #algorithm for the generation of the random applications
+    func_REQUESTPROB="random.random()/4" #Popularidad de la app. threshold que determina la probabilidad de que un dispositivo tenga asociado peticiones a una app. tle threshold es para cada ap
+    func_REQUESTPROB="1.0" #Popularidad de la app. threshold que determina la probabilidad de que un dispositivo tenga asociado peticiones a una app. tle threshold es para cada ap
+    func_SERVICERESOURCES = "10"
+    func_APPDEADLINE="(random.random()*4)"
+    func_USERREQRAT="random.random()"
+
+
+
+elif myConfiguration_ == 'tinny2':
+    TOTALNUMBEROFAPPS = 4
+    CLOUDCAPACITY = 9999999999999999
+    CLOUDSPEED = 9999
+    CLOUDBW = 999
+    CLOUDPR = 99
+    PERCENTATGEOFGATEWAYS = 1.0
+    func_PROPAGATIONTIME = "random.randint(10,10)"
+    func_BANDWITDH = "random.randint(100,100)"
+    func_SERVICEINSTR = "random.randint(100,100)"
+    func_SERVICEMESSAGESIZE = "random.randint(500,500)"
+    func_NETWORKGENERATION = "nx.barbell_graph(5, 1)" #algorithm for the generation of the network topology
+    func_NODERESOURECES = "random.randint(1,10)" #random distribution for the resources of the fog devices
+    func_NODESPEED = "random.randint(100,1000)" #random distribution for the speed of the fog devices
+    func_APPGENERATION = "nx.gn_graph(random.randint(2,10))" #algorithm for the generation of the random applications
+    func_REQUESTPROB="random.random()/4" #Popularidad de la app. threshold que determina la probabilidad de que un dispositivo tenga asociado peticiones a una app. tle threshold es para cada ap
+    func_REQUESTPROB="1.0" #Popularidad de la app. threshold que determina la probabilidad de que un dispositivo tenga asociado peticiones a una app. tle threshold es para cada ap
+    func_SERVICERESOURCES = "1"
+    func_APPDEADLINE="(random.random()*4)"
+    func_USERREQRAT="random.random()"
+
+
+
 #****************************************************************************************************
 
 #ESCRITURA DE ESTADISTICAS PARA PLOTS
@@ -309,42 +305,43 @@ statisticsNodesServicesILP = {}
 
 def writeStatisticsAllocationILP(clientId,servId,devId):
 
-    if not devId==cloudId:
-        appId=int(mapService2App[servId])
+    if devId==cloudId:
+        return
+    appId=int(mapService2App[servId])
 
 
-        dist_ = nx.shortest_path_length(G,source=clientId,target=devId,weight="weight")
+    dist_ = nx.shortest_path_length(G,source=clientId,target=devId,weight="weight")
 
-        mykey_=dist_
-        if mykey_ in statisticsDistancesRequestILP:
-            statisticsDistancesRequestILP[mykey_]= statisticsDistancesRequestILP[mykey_]+1
-        else:
-            statisticsDistancesRequestILP[mykey_]=1
+    mykey_=dist_
+    if mykey_ in statisticsDistancesRequestILP:
+        statisticsDistancesRequestILP[mykey_]= statisticsDistancesRequestILP[mykey_]+1
+    else:
+        statisticsDistancesRequestILP[mykey_]=1
 
-        mykey_=devId
-        if mykey_ in statisticsNodesRequestILP:
-            statisticsNodesRequestILP[mykey_]= statisticsNodesRequestILP[mykey_]+1
-        else:
-            statisticsNodesRequestILP[mykey_]=1
+    mykey_=devId
+    if mykey_ in statisticsNodesRequestILP:
+        statisticsNodesRequestILP[mykey_]= statisticsNodesRequestILP[mykey_]+1
+    else:
+        statisticsNodesRequestILP[mykey_]=1
 
-        mykey_=(devId,servId)
-        if mykey_ in statisticsNodesServicesILP:
-            statisticsNodesServicesILP[mykey_]= statisticsNodesServicesILP[mykey_]+1
-        else:
-            statisticsNodesServicesILP[mykey_]=1
+    mykey_=(devId,servId)
+    if mykey_ in statisticsNodesServicesILP:
+        statisticsNodesServicesILP[mykey_]= statisticsNodesServicesILP[mykey_]+1
+    else:
+        statisticsNodesServicesILP[mykey_]=1
 
 
-        mykey_=(appsDeadlines[appId],dist_)
-        if mykey_ in statisticsDistanceDeadlineILP:
-            statisticsDistanceDeadlineILP[mykey_]= statisticsDistanceDeadlineILP[mykey_]+1
-        else:
-            statisticsDistanceDeadlineILP[mykey_]=1
+    mykey_=(appsDeadlines[appId],dist_)
+    if mykey_ in statisticsDistanceDeadlineILP:
+        statisticsDistanceDeadlineILP[mykey_]= statisticsDistanceDeadlineILP[mykey_]+1
+    else:
+        statisticsDistanceDeadlineILP[mykey_]=1
 
-        mykey_=(servId,appsDeadlines[appId])
-        if mykey_ in statisticsServiceInstancesILP:
-            statisticsServiceInstancesILP[mykey_]=statisticsServiceInstancesILP[mykey_]+1
-        else:
-            statisticsServiceInstancesILP[mykey_]=1
+    mykey_=(servId,appsDeadlines[appId])
+    if mykey_ in statisticsServiceInstancesILP:
+        statisticsServiceInstancesILP[mykey_]=statisticsServiceInstancesILP[mykey_]+1
+    else:
+        statisticsServiceInstancesILP[mykey_]=1
 
 
 #deviceId: total usage resources
@@ -355,7 +352,7 @@ def writeStatisticsDevicesILP(servId,devId):
 
 
     #
-    if not devId==cloudId:
+    if devId != cloudId:
         mykey_=devId
         if mykey_ in nodeBussyResourcesILP:
             nodeBussyResourcesILP[mykey_]=nodeBussyResourcesILP[mykey_]+float(myServicesResources[servId])
@@ -480,7 +477,7 @@ def normalizeSmallerSetsInSameLevel(transitivesClosures):
 
     for n in transitivesClosures:
         tmpList = list(transitivesClosures[n])
-        for i in range(0,len(tmpList)):
+        for i in range(len(tmpList)):
             for j in range(i+1,len(tmpList)):
                 if (tmpList[i] & tmpList[j])==tmpList[i]:
                     transitivesClosures[n].remove(tmpList[i])
@@ -903,18 +900,15 @@ def communityCalculation(GRAPH,reverseOrd):
     communityLevel = {}
     allCommunities.add(frozenset(GRAPH.nodes))
     communityLevel[frozenset(GRAPH.nodes)]=0
-    i = 1
-    for communities in itertools.islice(communities_generator, GRAPH.number_of_nodes()):
+    for i, communities in enumerate(itertools.islice(communities_generator, GRAPH.number_of_nodes()), start=1):
         if verbose_log:
             print(tuple(sorted(c) for c in communities))
         for c in communities:
             allCommunities.add(frozenset(c))
             communityLevel[frozenset(c)]=i
-        i=i+1
-
-    sorted_ = sorted(communityLevel.items(), key=operator.itemgetter(1), reverse=reverseOrd)
-
-    return sorted_
+    return sorted(
+        communityLevel.items(), key=operator.itemgetter(1), reverse=reverseOrd
+    )
 
 
 

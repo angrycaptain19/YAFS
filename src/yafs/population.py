@@ -105,7 +105,7 @@ class Statical(Population):
                 if entity["model"] == ctrl["model"]:
                     msg = ctrl["message"]
                     dst = ctrl["distribution"]
-                    for number in range(ctrl["number"]):
+                    for _ in range(ctrl["number"]):
                         idsrc = sim.deploy_source(app_name,id_node=id_entity,msg=msg,distribution=dst)
                         # the idsrc can be used to control the deactivation of the process in a dynamic behaviour
 

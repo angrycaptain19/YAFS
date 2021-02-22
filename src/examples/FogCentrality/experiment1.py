@@ -123,15 +123,15 @@ def computingWeights(t,all_nodes_dev,edge_dev,workload_type):
             minvalue = min(len(minPath[(vertex[0],dev)]),len(minPath[(vertex[1],dev)]))
             minStep[(vertex,dev)]=minvalue
 
-    weight_load = range(0,len(workload_type))
-    version_printed_weights2 =range(0,len(workload_type))
+    weight_load = range(len(workload_type))
+    version_printed_weights2 = range(len(workload_type))
     for idx,load in enumerate(workload_type):
         weight_load[idx] = {}
         version_printed_weights2[idx] = {}
-        for key in minStep:
+        for key, value in minStep.items():
             if key[1] in workload_type[idx]:
                 if key[0] in weight_load[idx]:
-                    weight_load[idx][key[0]] += 1.0/minStep[key]
+                    weight_load[idx][key[0]] += 1.0 / value
                     version_printed_weights2[idx][key[0]] += minStep[key]
                 else:
                     weight_load[idx][key[0]] = 1.0/minStep[key]

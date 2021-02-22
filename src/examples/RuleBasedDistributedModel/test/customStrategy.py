@@ -99,11 +99,7 @@ class CustomStrategy():
     def is_already_deployed(self,sim,service_name,idtopo):
         app_name = service_name[0:service_name.index("_")]
 
-        all_des = []
-        for k, v in sim.alloc_DES.items():
-            if v == idtopo:
-                all_des.append(k)
-
+        all_des = [k for k, v in sim.alloc_DES.items() if v == idtopo]
         # Clearing other related structures
         for des in sim.alloc_module[app_name][service_name]:
             if des in all_des:
@@ -117,12 +113,12 @@ class CustomStrategy():
 
         nodes_with_services = defaultdict(list)
 
-        current_services = dict((k, v) for k, v in current_services.items() if len(v)>0)
+        current_services = {k: v for k, v in current_services.items() if len(v)>0}
 
         deployed_services = defaultdict(list)
-        for k,v  in current_services.items():
+        for k,v in current_services.items():
             for service_name in v:
-                if not "None" in service_name: #[u'2#2_19']
+                if "None" not in service_name: #[u'2#2_19']
                     deployed_services[service_name[service_name.index("#")+1:]].append(k)
                 else:
                     nodes_with_services[k].append(service_name[:service_name.index("#")])
@@ -285,11 +281,11 @@ class CustomStrategy():
         print("-" * 30)
 
         #TODO Extraer ocupacion a otros procesos
-        for node in nodes_with_deployed_services:
+        for node, value in nodes_with_deployed_services.items():
             if node not in self.__currentOccupation:
                 self.__currentOccupation[node] =np.array(eval((sim.topology.G.nodes[node]["occupation"])))
 
-            for service in nodes_with_deployed_services[node]:
+            for service in value:
                 pos = list(self.__currentOccupation[node]).index(0.)  # it could be incremental
                 self.__currentOccupation[node][pos] = self.__my_map_service(service)
 
@@ -300,20 +296,16 @@ class CustomStrategy():
         # Unused deployed services
         services_not_used = defaultdict(list)
         for k in current_services:
-            if k not in service_calls.keys():
-                # Unused service
-                None
-            else:
-               for service in current_services[k]:
-                    found = False
-                    for path in service_calls[k]:
-                        if path[-1] == service:
-                            found = True
-                            break
+            if k in service_calls:
+                for service in current_services[k]:
+                    found = any(path[-1] == service for path in service_calls[k])
                     #endfor
                     if not found:
                         services_not_used[k].append(service)
 
+            else:
+                # Unused service
+                None
         print("Unused deployed services")
         print(services_not_used)
         print("-"*30)
@@ -393,7 +385,7 @@ class CustomStrategy():
         ####
         shuffle_agents = list(self.agents.keys())
         attempts = 0
-        while len(shuffle_agents)>0 and attempts < CustomStrategy.LIMIT_TURNS:
+        while shuffle_agents and attempts < CustomStrategy.LIMIT_TURNS:
             k = random.randint(0,len(shuffle_agents)-1)
             key_agent = shuffle_agents[k]
             del shuffle_agents[k]

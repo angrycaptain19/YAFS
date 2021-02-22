@@ -24,7 +24,7 @@ class CloudPath_RR(Selection):
         bestPath = []
         bestDES = []
 
-        if message.name == "M.Sensor" or message.name == "M.Player_Game_State":  # both messages are adressed to modules deployed in cloud
+        if message.name in ["M.Sensor", "M.Player_Game_State"]:  # both messages are adressed to modules deployed in cloud
             next_DES_dst = DES_dst[self.rr[message.dst]]
             dst_node = alloc_DES[next_DES_dst]
 

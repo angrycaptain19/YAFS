@@ -206,8 +206,8 @@ def distributionServices(case):
     
 dep_MCDA = distributionServices("MCDA")
 dep_WA = distributionServices("WA")
-   
-   
+
+
 
 
 ## discovering source entities
@@ -218,20 +218,13 @@ dr = pd.read_pickle(pathSimple+"dr_%s_%i.pkl"%(case,0))
 nodeSources = dr.user.values
 for k in range(200):
     sources_MCDA[str(k)]=k in nodeSources
-    if k in nodeSources:
-        sources2_MCDA[str(k)] = 10.0
-    else:
-        sources2_MCDA[str(k)] = 0.0     
+    sources2_MCDA[str(k)] = 10.0 if k in nodeSources else 0.0
 case=  "WA"
 dr = pd.read_pickle(pathSimple+"dr_%s_%i.pkl"%(case,0))
 nodeSources = dr.user.values
 for k in range(200):
     sources_WA[str(k)]=k in nodeSources
-    if k in nodeSources:
-        sources2_WA[str(k)] = 10.0
-    else:
-        sources2_WA[str(k)] = 0.0 
-    
+    sources2_WA[str(k)] = 10.0 if k in nodeSources else 0.0
 #Ok
 G = nx.read_gexf(pathEXP+"network.gexf")
 nx.set_node_attributes(G, values=dep_MCDA, name='deploys_MCDA')

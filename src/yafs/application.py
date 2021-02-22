@@ -248,7 +248,7 @@ class Application:
             param (dict): the parameters for *distribution* function
 
         """
-        if not module_name in self.services:
+        if module_name not in self.services:
             self.services[module_name] = []
 
         self.services[module_name].append({"type": Application.TYPE_MODULE, "dist": distribution, "param": param,

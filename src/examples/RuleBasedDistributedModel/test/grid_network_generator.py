@@ -203,9 +203,8 @@ def showUser(node,service):
 def removeUser(node,service):
     if node not in controlUser.keys():
         return False
-    else:
-        controlUser[node]-=1
-        return True
+    controlUser[node]-=1
+    return True
  
 node = (0,4)
 showUser(node,3)

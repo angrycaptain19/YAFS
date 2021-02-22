@@ -46,11 +46,7 @@ class CustomStrategy():
     def is_already_deployed(self,sim,service_name,node):
         app_name = service_name[0:service_name.index("_")]
 
-        all_des = []
-        for k, v in sim.alloc_DES.items():
-            if v == node:
-                all_des.append(k)
-
+        all_des = [k for k, v in sim.alloc_DES.items() if v == node]
         # Clearing other related structures
         for des in sim.alloc_module[int(app_name)][service_name]:
             if des in all_des:
@@ -64,12 +60,12 @@ class CustomStrategy():
         # it returns all entities related to a node: modules, sources/users, etc.
         current_services = sim.get_alloc_entities()
         # here, we only need modules (not users)
-        current_services = dict((k, v) for k, v in current_services.items() if len(v)>0)
+        current_services = {k: v for k, v in current_services.items() if len(v)>0}
         deployed_services = defaultdict(list)
         for node,services in current_services.items():
             for service_name in services:
-                if not "None" in service_name:
-                     deployed_services[service_name[service_name.index("#")+1:]].append(node)
+                if "None" not in service_name:
+                    deployed_services[service_name[service_name.index("#")+1:]].append(node)
 
 
         return deployed_services

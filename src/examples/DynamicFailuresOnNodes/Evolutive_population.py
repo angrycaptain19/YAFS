@@ -21,7 +21,7 @@ class Pop_and_Failures(Population):
             dst = ctrl["distribution"]
             for item in range(self.number_generators):
                 id = random.choice(id_nodes)
-                for number in range(ctrl["number"]):
+                for _ in range(ctrl["number"]):
                     idsrc = sim.deploy_source(app_name, id_node=id, msg=msg, distribution=dst)
 
         for ctrl in self.sink_control:

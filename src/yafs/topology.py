@@ -176,13 +176,9 @@ class Topology:
                       )
 
         self.G = nx.read_graphml(filename)
-        attEdges = {}
-        for k in self.G.edges():
-            attEdges[k] = {"BW": 1, "PR": 1}
+        attEdges = {k: {"BW": 1, "PR": 1} for k in self.G.edges()}
         nx.set_edge_attributes(self.G, values=attEdges)
-        attNodes = {}
-        for k in self.G.nodes():
-            attNodes[k] = {"IPT": 1}
+        attNodes = {k: {"IPT": 1} for k in self.G.nodes()}
         nx.set_node_attributes(self.G, values=attNodes)
         for k in self.G.nodes():
             self.nodeAttributes[k] = self.G.node[k] #it has "id" att. TODO IMPROVE
@@ -210,9 +206,8 @@ class Topology:
         result = []
         for key in self.nodeAttributes.keys():
             val = self.nodeAttributes[key]
-            if keyS in val:
-                if value[keyS] == val[keyS]:
-                    result.append(key)
+            if keyS in val and value[keyS] == val[keyS]:
+                result.append(key)
         return result
 
 

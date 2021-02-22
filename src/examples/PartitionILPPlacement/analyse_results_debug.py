@@ -87,13 +87,11 @@ def set_box_color(bp, color):
 ### It computes the Response of each app
 def getAllR(dr):
     dar = pd.DataFrame(columns=['app','r'])
-    ixloc  =0
-    for k,g in dr.groupby(["app"]):
+    for ixloc, (k, g) in enumerate(dr.groupby(["app"])):
         values = np.array([])
         for item in g.values:
             values= np.concatenate((values,item[5]), axis=0)
         dar.loc[ixloc] = [k,values]
-        ixloc+=1
     return dar
 
 def drawBoxPlot_Both_USER(app,dr,drILP):
