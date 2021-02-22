@@ -56,13 +56,11 @@ def create_json_topology():
         links.append(v)
 
     entities = []
-    for nid in nodes.keys():
+    for nid in nodes:
         value = {"id": nid, "model": "F", "IPT": 1, "RAM": 1, "COST": 1}
         entities.append(value)
 
-    topology_json = {"entity": entities, "link": links}
-
-    return topology_json
+    return {"entity": entities, "link": links}
 
 
 def computingWeights(t,all_nodes_dev,edge_dev,workload_type):
@@ -82,15 +80,15 @@ def computingWeights(t,all_nodes_dev,edge_dev,workload_type):
             minvalue = min(len(minPath[(vertex[0],dev)]),len(minPath[(vertex[1],dev)]))
             minStep[(vertex,dev)]=minvalue
 
-    weight_load = range(0,len(workload_type))
-    version_printed_weights2 =range(0,len(workload_type))
+    weight_load = range(len(workload_type))
+    version_printed_weights2 = range(len(workload_type))
     for idx,load in enumerate(workload_type):
         weight_load[idx] = {}
         version_printed_weights2[idx] = {}
-        for key in minStep:
+        for key, value in minStep.items():
             if key[1] in workload_type[idx]:
                 if key[0] in weight_load[idx]:
-                    weight_load[idx][key[0]] += 1.0/minStep[key]
+                    weight_load[idx][key[0]] += 1.0 / value
                     version_printed_weights2[idx][key[0]] += minStep[key]
                 else:
                     weight_load[idx][key[0]] = 1.0/minStep[key]
@@ -99,9 +97,9 @@ def computingWeights(t,all_nodes_dev,edge_dev,workload_type):
 
 def generate_communities(size,edge,minPath,minDis,threshold_population_edge,cloud_device):
     threshold = int(len(edge.keys()) * threshold_population_edge)
-    community = range(0, size)
+    community = range(size)
     com = {}
-    for w in range(0, size):
+    for w in range(size):
         # Select one random edge device
         n = random.choice(edge.keys())
         if n == cloud_device:

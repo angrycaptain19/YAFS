@@ -122,12 +122,12 @@ class ClusterPlacement(Placement):
             if "Coordinator" == module:
                 if "Coordinator" in self.scaleServices.keys():
                     # print self.scaleServices["Coordinator"]
-                    for rep in range(0,self.scaleServices["Coordinator"]):
+                    for _ in range(self.scaleServices["Coordinator"]):
                         idDES = sim.deploy_module(app_name,module,services[module],id_cluster) #Deploy as many modules as elements in the array
 
             elif "Calculator" == module:
                 if "Calculator" in self.scaleServices.keys():
-                    for rep in range(0, self.scaleServices["Calculator"]):
+                    for _ in range(self.scaleServices["Calculator"]):
                         idDES = sim.deploy_module(app_name,module,services[module],id_cluster)
 
             elif "Client" == module:

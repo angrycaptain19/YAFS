@@ -198,10 +198,7 @@ def main(path, path_results, number_simulation_steps, tracks, topology, case, it
     for aName in apps.keys():
         # print "Deploying app: ",aName
         pop_app = JSONPopulation(name="Statical_%s" % aName, json={}, it=it)
-        data = []
-        for element in pop.data["sources"]:
-            if element['app'] == aName:
-                data.append(element)
+        data = [element for element in pop.data["sources"] if element['app'] == aName]
         pop_app.data["sources"] = data
 
         s.deploy_app(apps[aName], placement, pop_app, selectorPath)

@@ -202,11 +202,8 @@ def distributionServices(pathSimple,case):
     fname2="file_alloc_entities_%s_%i_%i.pkl"% (case, simulationTime, it)
     f = open(path+fname2,"r")
     cs2 = pickle.load(f)
-    dep = {}
-    for k in cs2:
-        dep[str(k)]=len(cs2[k])
-        
-    df = pd.DataFrame().from_dict(dep, orient='index')   
+    dep = {str(k): len(cs2[k]) for k in cs2}
+    df = pd.DataFrame().from_dict(dep, orient='index')
     df = df[df[0] != 0]
     df = df.sort_values(by=[0],ascending=False)
     return dep
@@ -218,11 +215,11 @@ def compute_distance(k):
 def topology_description_of_services():
     for exp in experimentos:
         pathSimple = "exp1/results_case_%s/"%exp    
-    
+
         dep_MCDA = distributionServices_withplot(pathSimple,"MCDA")
         dep_WA = distributionServices_withplot(pathSimple,"WA")
-       
-     
+
+
         ## discovering source entities
         sources_MCDA,sources_WA = {},{}
         sources2_MCDA,sources2_WA = {},{}
@@ -231,20 +228,13 @@ def topology_description_of_services():
         nodeSources = dr.user.values
         for k in range(200):
             sources_MCDA[str(k)]=k in nodeSources
-            if k in nodeSources:
-                sources2_MCDA[str(k)] = 10.0
-            else:
-                sources2_MCDA[str(k)] = 0.0     
+            sources2_MCDA[str(k)] = 10.0 if k in nodeSources else 0.0
         case=  "WA"
         dr = pd.read_pickle(pathSimple+"dr_%s_%i.pkl"%(case,0))
         nodeSources = dr.user.values
         for k in range(200):
             sources_WA[str(k)]=k in nodeSources
-            if k in nodeSources:
-                sources2_WA[str(k)] = 10.0
-            else:
-                sources2_WA[str(k)] = 0.0 
-            
+            sources2_WA[str(k)] = 10.0 if k in nodeSources else 0.0
         #Ok
         G = nx.read_gexf(pathEXP+"network.gexf")
         nx.set_node_attributes(G, values=dep_MCDA, name='deploys_MCDA')

@@ -99,7 +99,7 @@ def create_json_topology(numOfDepts,numOfMobilesPerDept):
     topology_json = {"entity": [cloud_dev, proxy_dev], "link": [{"s": 0, "d": 1, "BW": 10000, "PR": 14}]}
     id += 1
 
-    for idx in range(numOfDepts):
+    for _ in range(numOfDepts):
         #GATEWAY DEVICE
         gw = id
         topology_json["entity"].append(
@@ -107,7 +107,7 @@ def create_json_topology(numOfDepts,numOfMobilesPerDept):
         topology_json["link"].append({"s": 1, "d": id, "BW": 100, "PR": 10})
         id += 1
 
-        for idm in range(numOfMobilesPerDept):
+        for _ in range(numOfMobilesPerDept):
             #MOBILE DEVICE
             topology_json["entity"].append(
                 {"id": id, "model": "m-", "IPT": 1000 * 10 ^ 6, "RAM": 1000, "COST": 0,

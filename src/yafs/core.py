@@ -179,7 +179,7 @@ class Sim:
         try:
             paths,DES_dst = self.selector_path[app_name].get_path(self,app_name, message, self.alloc_DES[idDES], self.alloc_DES, self.alloc_module, self.last_busy_time,from_des=idDES)
 
-            if DES_dst == [None] or DES_dst==[[]]:
+            if DES_dst in [[None], [[]]]:
                 self.logger.warning(
                     "(#DES:%i)\t--- Unreacheable DST:\t%s: PATH:%s " % (idDES, message.name, paths))
 
@@ -861,9 +861,11 @@ class Sim:
         self.alloc_DES[idDES] = node
         self.__add_consumer_service_pipe(app_name, module, idDES)
         # Update the relathionships among module-entity
-        if app_name in self.alloc_module:
-            if module not in self.alloc_module[app_name]:
-                self.alloc_module[app_name][module] = []
+        if (
+            app_name in self.alloc_module
+            and module not in self.alloc_module[app_name]
+        ):
+            self.alloc_module[app_name][module] = []
         self.alloc_module[app_name][module].append(idDES)
         self.env.process(self.__add_sink_module(idDES,app_name, module))
 
@@ -907,7 +909,7 @@ class Sim:
         self.alloc_module[app.name] = {}
 
         # Add Placement controls to the App
-        if not placement.name in self.placement_policy.keys():  # First Time
+        if placement.name not in self.placement_policy.keys():  # First Time
             self.placement_policy[placement.name] = {"placement_policy": placement, "apps": []}
             if placement.activation_dist is not None:
                 self.env.process(self.__add_placement_process(placement))
@@ -962,11 +964,7 @@ class Sim:
         key : id-node
         value: a list of deployed services
         """
-        alloc_entities = {}
-        for key in self.topology.G.nodes:
-            alloc_entities[key] = []
-
-
+        alloc_entities = {key: [] for key in self.topology.G.nodes}
         for id_des_process in self.alloc_source:
             src_deployed = self.alloc_source[id_des_process]
             # print "Module (SRC): %s(%s) - deployed at entity.id: %s" %(src_deployed["module"],src_deployed["app"],src_deployed["id"])
@@ -1011,7 +1009,7 @@ class Sim:
                      "module_dest": service["module_dest"], "dist": service["dist"], "param": service["param"]})
 
 
-        if len(register_consumer_msg) > 0:
+        if register_consumer_msg:
             for id_topology in ids:
                 id_DES.append(self.__deploy_module(app_name, module, id_topology, register_consumer_msg))
 
@@ -1024,11 +1022,7 @@ class Sim:
         from app_name
         deployed in id_topo
         """
-        all_des = []
-        for k, v in self.alloc_DES.items():
-            if v == idtopo:
-                all_des.append(k)
-
+        all_des = [k for k, v in self.alloc_DES.items() if v == idtopo]
         # Clearing related structures
         for des in self.alloc_module[app_name][service_name]:
             if des in all_des:
@@ -1116,7 +1110,18 @@ class Sim:
         print("DES\t| TOPO \t| Src.Mod \t| Modules")
         print("-" * 40)
         for k in self.alloc_DES:
-            print(k,"\t|",self.alloc_DES[k],"\t|",self.alloc_source[k]["name"] if k in self.alloc_source.keys() else "--","\t\t|",fullAssignation[k]["Module"] if k in fullAssignation.keys() else "--")
+            print(
+                k,
+                "\t|",
+                self.alloc_DES[k],
+                "\t|",
+                self.alloc_source[k]["name"]
+                if k in self.alloc_source.keys()
+                else "--",
+                "\t\t|",
+                fullAssignation[k]["Module"] if k in fullAssignation else "--",
+            )
+
         print("-" * 40)
 
 

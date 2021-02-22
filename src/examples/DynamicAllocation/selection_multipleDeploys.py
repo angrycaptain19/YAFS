@@ -77,14 +77,6 @@ class BroadPath(Selection):
                 self.most_near_calculator_to_client[node_src] = self.compute_most_near(
                     node_src,alloc_DES, sim,DES_dst)
 
-            path,des = self.most_near_calculator_to_client[node_src]
-
-            # print "\t NEW DES_DST: %s" % DES_dst
-            # print "PATH ",path
-            # print "DES  ",des
-
-            return [path],[des]
-
         else:
             self.invalid_cache_value = len(DES_dst)
             # print "\t Invalid cached "
@@ -95,11 +87,12 @@ class BroadPath(Selection):
             self.most_near_calculator_to_client[node_src] = self.compute_most_near(
                     node_src, alloc_DES, sim, DES_dst)
 
-            path, des = self.most_near_calculator_to_client[node_src]
 
-            # print "\t NEW DES_DST: %s" % DES_dst
-            # print "PATH ",path
-            # print "DES  ",des
+        path,des = self.most_near_calculator_to_client[node_src]
 
-            return [path], [des]
+        # print "\t NEW DES_DST: %s" % DES_dst
+        # print "PATH ",path
+        # print "DES  ",des
+
+        return [path],[des]
 

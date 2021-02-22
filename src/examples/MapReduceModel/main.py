@@ -121,9 +121,7 @@ def main(simulated_time,experimento,file,study,it):
     dataNetwork = json.load(open(experimento+file+'-network.json'))
     t.load(dataNetwork)
 
-    attNodes = {}
-    for k in t.G.nodes():
-        attNodes[k] = {"IPT": 1}
+    attNodes = {k: {"IPT": 1} for k in t.G.nodes()}
     nx.set_node_attributes(t.G, values=attNodes)
 
     # t.write("network.gexf")
@@ -205,10 +203,7 @@ def main(simulated_time,experimento,file,study,it):
     for aName in apps.keys():
         #print "Deploying app: ",aName
         pop_app = JSONPopulation(name="Statical_%s"%aName,json={},it=it)
-        data = []
-        for element in pop.data["sources"]:
-            if element['app'] == aName:
-                data.append(element)
+        data = [element for element in pop.data["sources"] if element['app'] == aName]
         pop_app.data["sources"]=data
 
         s.deploy_app(apps[aName], placement, pop_app, selectorPath)

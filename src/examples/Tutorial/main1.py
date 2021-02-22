@@ -63,10 +63,7 @@ def create_json_topology():
        """
 
     ## MANDATORY FIELDS
-    topology_json = {}
-    topology_json["entity"] = []
-    topology_json["link"] = []
-
+    topology_json = {"entity": [], "link": []}
     cloud_dev    = {"id": 0, "model": "cloud","mytag":"cloud", "IPT": 5000 * 10 ^ 6, "RAM": 40000,"COST": 3,"WATT":20.0}
     sensor_dev   = {"id": 1, "model": "sensor-device", "IPT": 100* 10 ^ 6, "RAM": 4000,"COST": 3,"WATT":40.0}
     actuator_dev = {"id": 2, "model": "actuator-device", "IPT": 100 * 10 ^ 6, "RAM": 4000,"COST": 3, "WATT": 40.0}
